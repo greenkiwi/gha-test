@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "fail 3"
-      - run: exit 1
+#      - run: exit 1
 
 
   Test:
