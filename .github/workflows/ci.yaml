@@ -43,3 +43,18 @@ jobs:
         env:
           FAILED_DEPENDENCY: ${{ contains(needs.*.result, 'failure') }}
       - run: echo "success"
+
+
+  Test2:
+    name: Test 2
+    if: always()
+    runs-on: ubuntu-latest
+    needs:
+      - test-1
+      - test-2
+      - test-3
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/check-needs
+        with:
+          failed-dependencies: ${{ contains(needs.*.result, 'failure') }}

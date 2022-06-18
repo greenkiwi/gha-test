@@ -1,0 +1,29 @@
+name: Check needs
+description: Checks required jobs to see if they all passed
+inputs:
+  failed-dependencies:
+    description: pass in the following "{{ contains(needs.*.result, 'failure') }}"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Test
+      run: |
+        echo FAILED_DEPENDENCY=${{ inputs.failed-dependencies }}
+        [[ ${{ inputs.failed-dependencies }} = true ]] && exit 1 || echo "Test executed"
+      shell: bash
+    - run: echo "success"
+      shell: bash
+    - name : machine echo job
+      env : { CONTENT : "${{ toJson(job) }}" }
+      run : "echo $CONTENT"
+      shell: bash
+    - name : machine echo env
+      env : { CONTENT : "${{ toJson(env) }}" }
+      run : "echo $CONTENT"
+      shell: bash
+    - name : machine echo github
+      env : { CONTENT : "${{ toJson(github) }}" }
+      run : "echo $CONTENT"
+      shell: bash
